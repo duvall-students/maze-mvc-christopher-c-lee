@@ -68,6 +68,7 @@ public class Maze {
 	 */
 	public void markPath(Point square){
 		assert(validPoint(square));
+		//System.out.println("coloring");
 		maze[square.x][square.y] = PATH;
 	}
 

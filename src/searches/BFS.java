@@ -81,7 +81,7 @@ public class BFS extends SearchAlgorithm{
 	/*
 	 * Use the trail from child to parent to color the actual chosen path
 	 */
-	private void colorPath(){
+	protected void colorPath(){
 		Point step = goal;
 		maze.markPath(step);
 		while(step!=null){
@@ -96,6 +96,13 @@ public class BFS extends SearchAlgorithm{
 		return searchResult;
 	}
 
+	
+	@Override
+	protected void noNextStepFound() {
+		maze.markVisited(current);
+		Queue<Point> queue = (Queue<Point>) data;
+		queue.remove();
+	}
 
 
 

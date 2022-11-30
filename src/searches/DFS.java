@@ -19,36 +19,11 @@ public class DFS extends SearchAlgorithm{
 		data = stack;
 	}
 	
-	/*
-	 * Depth-First Search Algorithm.
-	 */
-	public boolean step(){
-		// Don't keep computing after goal is reached or determined impossible.
-		if(searchOver){
-			return searchResult;
-		}
-		// Find possible next steps
-		Collection<Point> neighbors = getNeighbors();
-		// Choose one to be a part of the path
-		Point next = chooseNeighbor(neighbors);
-		// mark the next step
-		if(next!=null){
-			maze.markPath(next);
-			recordLink(next);
-		}
-		// if no next step is found
-		else{	
-			maze.markVisited(current);
-			removeVisited();
-		}
-		resetCurrent();
-		checkSearchOver();
-		return searchResult;	
-	}
 	
 	protected void removeVisited() {
 		Stack<Point> stack = (Stack<Point>)data;
 		stack.pop();
+		//System.out.println("remove_visited");
 	}
 	
 
@@ -75,5 +50,11 @@ public class DFS extends SearchAlgorithm{
 	
 	protected boolean isGoal(Point square){
 		return square!= null && square.equals(goal);
+	}
+	
+	@Override
+	protected void noNextStepFound() {
+		maze.markVisited(current);
+		removeVisited();
 	}
 }

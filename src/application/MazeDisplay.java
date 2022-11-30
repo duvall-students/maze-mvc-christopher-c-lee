@@ -171,7 +171,7 @@ public class MazeDisplay extends Application {
 
 		Button randButton = new Button("Random Walk");
 		randButton.setOnAction(value ->  {
-			controller.startSearch("RandomWalk");
+			controller.startSearch("Random");
 		});
 		searches.getChildren().add(randButton);
 

@@ -7,15 +7,7 @@ import javafx.scene.shape.Rectangle;
 import searches.*;
 
 public class MazeController {
-	/* 
-	 * Logic of the program
-	 */
-	// The search algorithms
-//	private Greedy greedy;				
-//	private BFS bfs;
-//	private DFS dfs;
-//	private RandomWalk rand;
-//	private Magic magic;
+
 	private SearchAlgorithm search;
 	
 	
@@ -26,7 +18,7 @@ public class MazeController {
 	// Where to start and stop the search
 	private Point start;
 	private Point goal;
-
+	private SearchFactory searchFactory;
 	// The maze to search
 	private Maze maze;
 	
@@ -37,9 +29,9 @@ public class MazeController {
 	public MazeController(int num_rows, int num_columns, MazeDisplay mazeDisplay) {
 		start = new Point(1,1);
 		goal = new Point(num_rows-2, num_columns-2);
-		
 		maze = new Maze(num_rows, num_columns);
 		view = mazeDisplay;
+		searchFactory = new SearchFactory();
 
 	}
 	
@@ -54,7 +46,6 @@ public class MazeController {
 	 */
 	public void newMaze() {
 		maze.createMaze(maze.getNumRows(),maze.getNumCols());
-		//search = "";
 		view.redraw();
 	}
 	
@@ -73,33 +64,19 @@ public class MazeController {
 	public void doOneStep(double elapsedTime){
 		if(search!=null) {
 			search.step();
+			view.redraw();
 		}
-//		if(search.equals("DFS")) dfs.step();
-//		else if (search.equals("BFS")) bfs.step();
-//		else if (search.equals("Greedy")) greedy.step();
-//		else if (search.equals("RandomWalk")) rand.step();
-//		else if (search.equals("Magic")) magic.step();
-//		view.redraw();
 	}
 	
 	public void startSearch(String searchType) {
 		maze.reColorMaze();
-//		search = searchType;
-		
-		// Restart the search.  Since I don't know 
-		// which one, I'll restart all of them.
-		
-		search = new BFS(maze, start, goal);	// start in upper left and end in lower right corner
-		search = new DFS(maze, start, goal);
-		search = new Greedy(maze, start, goal);
-		search = new RandomWalk(maze, start, goal);
-		search = new Magic(maze, start, goal);
+		search = searchFactory.makeSearch(searchType, maze, start, goal);
 	}
 	
 	public int getCellState(Point position) {
 		return maze.get(position);
 	}
-
+	
 
 
 }

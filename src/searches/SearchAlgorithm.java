@@ -20,7 +20,6 @@ public abstract class SearchAlgorithm {
 		goal = goalPoint;
 		current = startPoint;
 		maze.markPath(current);
-		
 	}
 	
 	public boolean step(){
@@ -28,6 +27,7 @@ public abstract class SearchAlgorithm {
 		if(searchOver){
 			return searchResult;
 		}
+		
 		// Find possible next steps
 		Collection<Point> neighbors = getNeighbors();
 		// Choose one to be a part of the path
@@ -39,8 +39,7 @@ public abstract class SearchAlgorithm {
 		}
 		// if no next step is found
 		else{	
-			maze.markVisited(current);
-			removeVisited();
+			noNextStepFound();
 		}
 		resetCurrent();
 		checkSearchOver();
@@ -110,8 +109,8 @@ public abstract class SearchAlgorithm {
 	protected boolean isGoal(Point square){
 		return square!= null && square.equals(goal);
 	}
-	
+	protected abstract void noNextStepFound();
 	protected abstract void recordLink(Point next);
 	protected abstract void resetCurrent();
-	protected abstract void removeVisited();
+//	protected abstract void removeVisited();
 }

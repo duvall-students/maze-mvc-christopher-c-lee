@@ -20,34 +20,6 @@ public class RandomWalk extends SearchAlgorithm{
 		rand = new Random();
 	}
 	
-	/*
-	 * Algorithm for a Random Walk: Randomly choose a neighbor to go to
-	 */
-	public boolean step(){
-		// Don't keep computing after goal is reached or determined impossible.
-		if(searchOver){
-			return searchResult;
-		}
-		// Find possible next steps
-		Collection<Point> neighbors = getNeighbors();
-		// Choose one to be a part of the path
-		Point next = chooseNeighbor(neighbors);
-		// mark the next step
-		if(next!=null){
-			maze.markPath(next);
-			recordLink(next);
-		}
-		// if no next step is found
-		else{	
-			maze.markVisited(current);
-		}
-		resetCurrent();
-		checkSearchOver();
-		return searchResult;	
-	}
-	
-	
-	
 	
 	/*
 	 * Choose a random neighbor out of all the non-wall neighbors. 
@@ -85,10 +57,11 @@ public class RandomWalk extends SearchAlgorithm{
 		current = next;
 	}
 	
-	protected void removeVisited() {
-		
-	}
 	
+	@Override
+	protected void noNextStepFound() {
+		maze.markVisited(current);
+	}
 
 
 }
